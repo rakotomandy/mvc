@@ -19,6 +19,16 @@ class Root
                     echo "there is no method called " . $methodName . " in class " . $className;
                     exit;
                 }
+            }else {
+                $methodName=$urlVar[1] ?? '';
+                $parameters = array_slice($urlVar, 2);
+                if (method_exists($className, $methodName)) {
+                    $reflect = new ReflectionMethod($className, $methodName);
+                    $reflect->invokeArgs(new $className(), $parameters);
+                } else {
+                    echo "there is no method called " . $methodName . " in class " . $className;
+                    exit;
+                }
             }
         } else {
             if (file_exists("Controllers/" . $className . ".php")) {

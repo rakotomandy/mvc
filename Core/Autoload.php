@@ -1,5 +1,8 @@
 <?php
+session_start(); // Start the session to manage user sessions
 
+// Define the base URL for the application
+define("URL", "http://localhost/mvc/");
 
 function autoload($className) {
     if(file_exists("Core/" . $className . ".php")) {
