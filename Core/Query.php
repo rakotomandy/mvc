@@ -48,7 +48,6 @@ class Query
      */
     public function execute($values = [])
     {
-        try {
             $stmt = $this->db->prepare($this->query);
             $stmt->execute($values);
 
@@ -56,10 +55,6 @@ class Query
                 return $stmt->fetchAll(PDO::FETCH_OBJ);
             }
 
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            die("Query error: " . $e->getMessage());
-        }
     }
 
     /**
