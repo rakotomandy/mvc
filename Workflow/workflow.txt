@@ -1,0 +1,74 @@
+<?php
+<?php
+/*
+|--------------------------------------------------------------------------
+| MVC Routing Workflow Explanation
+|--------------------------------------------------------------------------
+|
+| This document explains the step-by-step workflow of how a request is
+| handled in your MVC system, from the browser URL to the final output.
+|
+| 1. User Enters a URL
+|    Example: http://localhost/mvc/ok/test
+|
+| 2. .htaccess Rewrites the URL
+|    - .htaccess intercepts the request.
+|    - If the requested file or directory does not exist,
+|      it rewrites the URL to:
+|      index.php?action=ok/test
+|
+| 3. index.php Receives the Request
+|    - index.php is now loaded.
+|    - It includes Core/Autoload.php to enable class autoloading.
+|    - It checks if $_GET['action'] is set.
+|    - If set, it calls Root::connect($_GET['action']).
+|    - If not set, it shows "ERROR 404 NOT FOUND".
+|
+| 4. Autoload.php Handles Class Loading
+|    - Whenever a new class is referenced, the autoloader checks
+|      Core/, Controllers/, Models/, and Views/ folders for a matching file.
+|    - If found, it includes the file automatically.
+|
+| 5. Root::connect() Parses the Action
+|    - Receives the action string (e.g., "ok/test").
+|    - Sanitizes and splits it by '/'.
+|    - The first part is the controller name (e.g., "Ok").
+|    - The second part is the method name (e.g., "test").
+|    - If the method is missing, defaults to "index".
+|
+| 6. Controller and Method Resolution
+|    - Checks if the controller class exists (autoloaded).
+|    - Checks if the method exists in the controller.
+|    - If both exist, it creates an instance and calls the method.
+|    - If the class or method does not exist, it shows an error.
+|
+| 7. Controller Method Executes
+|    - The specified method in the controller runs.
+|    - It can load models, views, or output directly.
+|
+| 8. Output is Sent to the Browser
+|    - Whatever the controller method echoes is sent as the HTTP response.
+|
+|------------------- Example Workflow -------------------
+| User visits: http://localhost/mvc/ok/test
+| 1. .htaccess rewrites to: index.php?action=ok/test
+| 2. index.php loads, calls: Root::connect('ok/test')
+| 3. Root::connect:
+|    - $className = 'Ok'
+|    - $methodName = 'test'
+|    - Calls Ok::test()
+| 4. Ok::test() runs and outputs its result.
+|
+|------------------- Default Method ---------------------
+| User visits: http://localhost/mvc/ok
+| - $className = 'Ok'
+| - $methodName = 'index' (default)
+| - Calls Ok::index()
+|
+|------------------- Error Handling ---------------------
+| If the controller or method does not exist,
+| an error message or 404 is shown.
+|
+|--------------------------------------------------------
+| This workflow ensures clean URLs and organized code
+| using the MVC
