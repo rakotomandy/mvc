@@ -17,6 +17,7 @@ class Database
         $query = "CREATE DATABASE IF NOT EXISTS $dbName";
         $this->db->exec($query);
         echo "Database created successfully.";
+        // Reconnect to the new database
         $this->db = new PDO("mysql:host=$this->host;dbname=$dbName", $this->user, $this->password);
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -29,7 +30,7 @@ class Database
     }
 }
 
-/* // Usage example
+// Usage example
 $db = new Database();
 $db->create("gestion");
-$db->table("users", "id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), email VARCHAR(50), password VARCHAR(255)"); // Adjust columns as needed */
+$db->table("classe", "idClasse INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, CLASSE VARCHAR(50), MATIERE VARCHAR(50), COEFF INT(11)"); // Adjust columns as needed 

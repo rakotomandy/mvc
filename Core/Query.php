@@ -29,8 +29,13 @@ class Query
 
     public function __construct()
     {
-        $this->db = new PDO("mysql:host=" . self::$host . ";dbname=" . self::$dbName, self::$user, self::$password);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        try {
+            $this->db = new PDO("mysql:host=" . self::$host . ";dbname=" . self::$dbName, self::$user, self::$password);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            exit;
+        }
     }
 
     /**
@@ -65,3 +70,8 @@ class Query
         echo $this->query;
     }
 }
+Query::connect('localhost','root','','gestion');
+/* $db = new Query();
+$q = $db->customQuery("SELECT * FROM users", "select");
+$result = $q->execute();
+print_r($result);  */
